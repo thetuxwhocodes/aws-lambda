@@ -2,40 +2,46 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 Description: HelloWorldLambdaJava
 
+Globals:
+  Function:
+    Runtime: java11
+    MemorySize: 512
+    Timeout: 25
+
+  Api:
+    OpenApiVersion: '3.0.1'
 Resources:
 
   HelloWorldLambdaStr:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: HelloWorldJavaStr
-      Runtime: java11
-      MemorySize: 512
       Handler: book.StringIntegerBooleanLambda::handlerString
-      CodeUri: target/lambda.jar
+      CodeUri: target/lambda.zip
 
   HelloWorldLambdaBool:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: HelloWorldJavaBool
-      Runtime: java11
-      MemorySize: 512
       Handler: book.StringIntegerBooleanLambda::handlerBoolean
-      CodeUri: target/lambda.jar
+      CodeUri: target/lambda.zip
 
   ContextChecker:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: ContextChecker
-      Runtime: java11
-      MemorySize: 512
       Handler: book.ContextChecker::handler
-      CodeUri: target/lambda.jar
+      CodeUri: target/lambda.zip
 
   SimpleIntegerCalculator:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: SimpleIntegerCalculator
-      Runtime: java11
-      MemorySize: 512
       Handler: calc.SimpleIntegerCalculator::calculate
-      CodeUri: target/lambda.jar
+      CodeUri: target/lambda.zip
+      Events:
+        ApiEvents:
+          Type: Api
+          Properties:
+            Path: /calc
+            Method: POST

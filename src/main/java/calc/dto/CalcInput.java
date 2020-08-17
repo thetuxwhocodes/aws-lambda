@@ -1,4 +1,4 @@
-package calc;
+package calc.dto;
 
 public class CalcInput {
 
